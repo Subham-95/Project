@@ -1,16 +1,20 @@
 package testScript;
 
+import org.testng.annotations.Test;
 import java.io.IOException;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.Listeners;
+
 
 import genericLibrary.BaseTest;
+import genericLibrary.CustomListener;
 import genericLibrary.FLib;
 import pomPages.HomePage;
 import pomPages.LoginPage;
 
+@Listeners(CustomListener.class)
 public class InvalidLoginTest extends BaseTest
 {
 	@DataProvider(name = "TestData")
@@ -40,7 +44,7 @@ public class InvalidLoginTest extends BaseTest
 		
 	}
 	
-	@Test(dataProvider = "TestData")
+	@Test(dataProvider = "TestData",groups={"FT","RT"})
 	public void inValidLogin(String username,String password)
 	{
 		HomePage h= new HomePage(driver);

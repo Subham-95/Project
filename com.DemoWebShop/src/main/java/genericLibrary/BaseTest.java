@@ -14,6 +14,8 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 
 /**
  * @author Subham Banerjee OCT 19
@@ -22,24 +24,25 @@ import org.testng.annotations.BeforeTest;
 public class BaseTest implements IAutoConstant
 {
 	public WebDriver driver;
+	public static WebDriver sdriver;
 	
-	@BeforeSuite
+	@BeforeSuite(alwaysRun = true)
 	public void toConnectServer()
 	{
 		Reporter.log("Server connected successfully",true);
 	}
 	
-	@BeforeTest
+	@BeforeTest(alwaysRun = true)
 	public void toConnectDatabase()
 	{
 		Reporter.log("Databse connected successfully",true);
 	}
-	
-	@BeforeClass
-	public void setup() throws IOException
+	@Parameters("browser")
+	@BeforeClass(alwaysRun = true)
+	public void setup(@Optional("chrome")String browser) throws IOException
 	{
 		FLib l = new FLib();
-		String browser = l.getDataFromProperty(PROP_PATH, "browser");
+		//String browser = l.getDataFromProperty(PROP_PATH, "browser");
 		String url = l.getDataFromProperty(PROP_PATH, "url");
 		Reporter.log("Launching"+browser+"Successfully",true);
 		if(browser.equalsIgnoreCase("chrome"))
@@ -51,15 +54,18 @@ public class BaseTest implements IAutoConstant
 		
 		else
 			Reporter.log("Invalid browser",true);
+		 sdriver= driver;
 		
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMESECONDS));
 		driver.get(url);
 		
+	
+		
 		
 	}
 	
-	@AfterClass
+	@AfterClass(alwaysRun = true)
 	public void teardown()
 	{
 		driver.quit();
@@ -67,13 +73,13 @@ public class BaseTest implements IAutoConstant
 		
 	}
 	
-	@AfterTest
+	@AfterTest(alwaysRun = true)
 	public void toCloseDatabase()
 	{
 		Reporter.log("Databse closed successfully",true);
 	}
 	
-	@AfterSuite
+	@AfterSuite(alwaysRun = true)
 	public void toCloseServer()
 	{
 		Reporter.log("Server closed successfully",true);

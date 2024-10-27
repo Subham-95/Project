@@ -16,7 +16,7 @@ public class RegisterTest extends BaseTest
 {
 	String email = "banerjee"+WorkLib.getRandomNumber()+"@gmail.com";
 	
-	@Test(description = "Verify if user is able to register or not")
+	@Test(description = "Verify if user is able to register or not",groups={"FT"})
 	public void register() throws EncryptedDocumentException, IOException, InterruptedException
 	{
 		//Click on register link
